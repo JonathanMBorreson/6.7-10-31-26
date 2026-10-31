@@ -1,0 +1,21 @@
+#ifndef ITEM_H
+#define ITEM_H
+
+#include <string>
+
+class item
+{
+public:
+    item(const std::string& name, double price);
+    static void setDiscount(double percent);
+    std::string getName() const;
+    double getOPrice() const;
+    double getDiscPrice() const;
+
+private:
+    std::string itemName;
+    double originalPrice;
+    static double discountMultiplier;
+};
+
+#endif
