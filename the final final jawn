@@ -1,0 +1,91 @@
+// main.cpp
+// Implements the item class, builds a store inventory from user input,
+// applies a store-wide discount, and prints each item's prices.
+#include <iostream>
+#include <string>
+#include <vector>
+#include "item.h"
+using namespace std;
+
+// the default being 1 means that there's no discount until it's changed
+double item::discountMultiplier = 1.0;
+
+// constructor
+item::item(const string& name, double price)
+    : itemName(name), originalPrice(price)
+{
+}
+
+// sets the store-wide discount
+// like if percent = 20 then discountMultiplier = 0.80
+void item::setDiscount(double percent)
+{
+    discountMultiplier = 1.0 - (percent / 100.0);
+}
+
+// returns the item's name
+string item::getName() const
+{
+    return itemName;
+}
+
+// returns the item's original price
+double item::getOPrice() const
+{
+    return originalPrice;
+}
+
+// returns the price after applying the discount
+double item::getDiscPrice() const
+{
+    return originalPrice * discountMultiplier;
+}
+
+// asks how many items to add, then the name and original price of each,
+// and adds a new item object to the inventory for each one
+void addItemsToList(vector<item>& inventory)
+{
+    int itemCount;
+    cout << "How many items would you like to add? ";
+    cin >> itemCount;
+
+    for (int i = 0; i < itemCount; i++)
+    {
+        string name;
+        double price;
+
+        cin.ignore();   // clear the leftover newline so getline works
+        cout << "Enter name of item " << i + 1 << ": ";
+        getline(cin, name);   // allows names with spaces
+        cout << "Enter original price of " << name << ": ";
+        cin >> price;
+
+        inventory.push_back(item(name, price));
+    }
+}
+
+// prints the name, original price, and discounted price of every item
+void printInventory(const vector<item>& inventory)
+{
+    cout << fixed;
+    cout.precision(2);   // show prices like 25.00
+
+    for (const item& currentItem : inventory)
+    {
+        cout << currentItem.getName()
+            << " | Original: $" << currentItem.getOPrice()
+            << " | Discounted: $" << currentItem.getDiscPrice() << "\n";
+    }
+}
+
+int main()
+{
+    vector<item> inventory;   // creates an empty list of items
+    addItemsToList(inventory);
+
+    item::setDiscount(20);    // sets the storewide discount to 20% for all items
+
+    printInventory(inventory);
+
+    return 0;
+}
