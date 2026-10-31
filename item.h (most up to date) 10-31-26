@@ -1,0 +1,55 @@
+// item.h
+// Declares the item class, which represents one item in a store's inventory.
+// All items share a single store-wide discount.
+#ifndef ITEM_H
+#define ITEM_H
+
+#include <string>
+
+class item {
+public:
+    /**
+     * Constructs an item with the given name and original (undiscounted) price.
+     * @param name   The name of the item.
+     * @param price  The original price of the item, in dollars.
+     */
+    item(const std::string& name, double price);
+
+    /**
+     * Sets the store-wide discount, which applies to every item.
+     * Updates discountMultiplier to 1 - (percent / 100).
+     * Example: percent = 20 gives a multiplier of 0.80.
+     * @param percent  The percent discounted (e.g. 20 for 20% off).
+     */
+    static void setDiscount(double percent);
+
+    /**
+     * Returns the name of the item.
+     * @return The item's name.
+     */
+    std::string getName() const;
+
+    /**
+     * Returns the original price of the item, before any discount.
+     * @return The item's original price.
+     */
+    double getOPrice() const;
+
+    /**
+     * Returns the price of the item after the store-wide discount is applied.
+     * Computed as originalPrice * discountMultiplier.
+     * @return The item's discounted price.
+     */
+    double getDiscPrice() const;
+
+private:
+    std::string itemName;               // The name of the item.
+    double originalPrice;               // The item's price before any discount.
+    static double discountMultiplier;   // Store-wide factor applied to prices (1.0 = no discount).
+};
+
+#endif // ITEM_H
+    printInventory(inventory);
+
+    return 0;
+}
